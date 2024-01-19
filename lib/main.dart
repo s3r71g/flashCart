@@ -17,6 +17,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // home: GetOtp(),
       home: Register(),
+
     );
   }
+}
+
+int getNumber() {
+  return Random().nextInt(100);
 }
