@@ -22,6 +22,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-int getNumber() {
-  return Random().nextInt(100);
-}
+// int getNumber() {
+//   return Random().nextInt(100);
+// }
