@@ -124,7 +124,7 @@ class ItemCard extends StatelessWidget {
         Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
         SizedBox(height: 10),
         Container(
-          height: 100,
+          height: 500,
           child: GridView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
