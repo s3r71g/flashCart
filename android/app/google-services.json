@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "546090213516",
+    "project_id": "happy-mart-598bf",
+    "storage_bucket": "happy-mart-598bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546090213516:android:bc78d8c77592cbde49dba9",
+        "android_client_info": {
+          "package_name": "com.example.flash_cart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2_FnmL5ApeNBioMNnwjT-1qJBwf2j7DE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
