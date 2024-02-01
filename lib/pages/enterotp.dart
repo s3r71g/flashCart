@@ -1,16 +1,24 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'categories.dart';
 import 'verified.dart';
 
 class Otp extends StatefulWidget {
-  const Otp({Key? key}) : super(key: key);
+  String verificationid;
+
+  Otp({super.key, required this.verificationid});
 
   @override
   // ignore: library_private_types_in_public_api
-  _OtpState createState() => _OtpState();
+  State<Otp> createState() => _OtpState();
 }
 
 class _OtpState extends State<Otp> {
+  TextEditingController otpController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,14 +87,30 @@ class _OtpState extends State<Otp> {
                 ),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _textFieldOTP(first: true, last: false),
-                        _textFieldOTP(first: false, last: false),
-                        _textFieldOTP(first: false, last: false),
-                        _textFieldOTP(first: false, last: true),
-                      ],
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: [
+                    //     _textFieldOTP(first: true, last: false),
+                    //     _textFieldOTP(first: false, last: false),
+                    //     _textFieldOTP(first: false, last: false),
+                    //     _textFieldOTP(first: false, last: true),
+                    //   ],
+                    // ),
+                    TextField(
+                      controller: otpController,
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        counter: const Offstage(),
+                        hintText: "Enter OTP",
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                width: 2, color: Colors.black12),
+                            borderRadius: BorderRadius.circular(12)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                width: 2, color: Color(0xff6c63ff)),
+                            borderRadius: BorderRadius.circular(12)),
+                      ),
                     ),
                     const SizedBox(
                       height: 22,
@@ -94,16 +118,29 @@ class _OtpState extends State<Otp> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => const Verified()),
-                          );
+                        onPressed: () async {
+                          try {
+                            PhoneAuthCredential credential =
+                                await PhoneAuthProvider.credential(
+                                    verificationId: widget.verificationid,
+                                    smsCode: otpController.text.toString());
+                            FirebaseAuth.instance
+                                .signInWithCredential(credential)
+                                .then((value) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Categories()));
+                            });
+                          } catch (ex) {
+                            log(ex.toString());
+                          }
                         },
                         style: ButtonStyle(
                           foregroundColor:
                               MaterialStateProperty.all<Color>(Colors.white),
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Color(0xff6c63ff)),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Color(0xff6c63ff)),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
@@ -154,39 +191,4 @@ class _OtpState extends State<Otp> {
     );
   }
 
-  Widget _textFieldOTP({bool? first, last}) {
-    // ignore: sized_box_for_whitespace
-    return Container(
-      height: 85,
-      child: AspectRatio(
-        aspectRatio: 1.0,
-        child: TextField(
-          autofocus: true,
-          onChanged: (value) {
-            if (value.length == 1 && last == false) {
-              FocusScope.of(context).nextFocus();
-            }
-            if (value.isEmpty && first == false) {
-              FocusScope.of(context).previousFocus();
-            }
-          },
-          showCursor: false,
-          readOnly: false,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          keyboardType: TextInputType.number,
-          maxLength: 1,
-          decoration: InputDecoration(
-            counter: const Offstage(),
-            enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(width: 2, color: Colors.black12),
-                borderRadius: BorderRadius.circular(12)),
-            focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(width: 2, color: Color(0xff6c63ff)),
-                borderRadius: BorderRadius.circular(12)),
-          ),
-        ),
-      ),
-    );
-  }
 }

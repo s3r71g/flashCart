@@ -1,5 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'enterotp.dart';
 
 class Register extends StatefulWidget {
@@ -10,6 +10,8 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  TextEditingController phoneController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +55,7 @@ class _RegisterState extends State<Register> {
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                    color:  Color(0xff6c63ff),
+                  color: Color(0xff6c63ff),
                 ),
               ),
               const SizedBox(
@@ -70,29 +72,31 @@ class _RegisterState extends State<Register> {
                 ),
                 child: Column(
                   children: [
-                    TextFormField(
+                    TextField(
+                      controller: phoneController,
                       keyboardType: TextInputType.number,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                       decoration: InputDecoration(
+                        hintText: "Enter Phone Number",
                         enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.black12),
                             borderRadius: BorderRadius.circular(10)),
                         focusedBorder: OutlineInputBorder(
                             borderSide: const BorderSide(color: Colors.black12),
                             borderRadius: BorderRadius.circular(10)),
-                        prefix: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          child: Text(
-                            '+91',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
+                        // prefix: const Padding(
+                        //   padding: EdgeInsets.symmetric(horizontal: 8),
+                        //   child: Text(
+                        //     '+91',
+                        //     style: TextStyle(
+                        //       fontSize: 18,
+                        //       fontWeight: FontWeight.bold,
+                        //     ),
+                        //   ),
+                        // ),
                         // suffixIcon: const Icon(
                         //   Icons.check_circle,
                         //   color: Colors.green,
@@ -106,16 +110,30 @@ class _RegisterState extends State<Register> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => const Otp()),
-                          );
+                        onPressed: () async {
+                          await FirebaseAuth.instance.verifyPhoneNumber(
+                              verificationCompleted:
+                                  (PhoneAuthCredential credential) {},
+                              verificationFailed: (FirebaseAuthException ex) {},
+                              codeSent:
+                                  (String verificationid, int? resendtoken) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Otp(
+                                              verificationid: verificationid,
+                                            )));
+                              },
+                              codeAutoRetrievalTimeout:
+                                  (String verificationid) {},
+                              phoneNumber: phoneController.text.toString());
                         },
                         style: ButtonStyle(
                           foregroundColor:
                               MaterialStateProperty.all<Color>(Colors.white),
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Color(0xff6c63ff),),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            Color(0xff6c63ff),
+                          ),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(

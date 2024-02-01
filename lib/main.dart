@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flash_cart/pages/enterotp.dart';
 import 'firebase_options.dart';
 import 'package:flash_cart/pages/categories.dart';
 import 'package:flash_cart/pages/fruits.dart';
@@ -24,9 +25,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter OTP Verification',
       debugShowCheckedModeBanner: false,
-      // home: Register(),
+      home: Register(),
+      // home: Otp(),
       // home: Categories(),
-      home: Fruits(),
+      // home: Fruits(),
     );
   }
 }
