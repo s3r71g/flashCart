@@ -78,6 +78,10 @@ flutter:
     - assets/beverages.svg
     - assets/grocery.svg
     - assets/hygiene.svg
+    - assets/desi_tomato.png
+    - assets/kashmeri_apple.png
+    - assets/shop_explore_potato.png
+    - assets/ooty_carrot.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
