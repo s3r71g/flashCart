@@ -1,4 +1,6 @@
+import 'package:flash_cart/pages/categories.dart';
 import 'package:flutter/material.dart';
+import 'package:flash_cart/pages/getotp.dart';
 
 import 'pages/getotp.dart';
 // import 'pages/get_otp.dart';
@@ -12,12 +14,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Flutter OTP Verification',
       debugShowCheckedModeBanner: false,
-      // home: GetOtp(),
       home: Register(),
-
+      // home: Categories(),
     );
   }
 }
