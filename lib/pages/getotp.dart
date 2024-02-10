@@ -51,7 +51,7 @@ class _RegisterState extends State<Register> {
                 height: 24,
               ),
               const Text(
-                'FLASH CART',
+                'HAPPY MART',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,

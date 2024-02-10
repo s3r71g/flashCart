@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'categories.dart';
+// import 'categories.dart';
 import 'verified.dart';
 
 class Otp extends StatefulWidget {
@@ -130,7 +130,7 @@ class _OtpState extends State<Otp> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Categories()));
+                                      builder: (context) => Verified()));
                             });
                           } catch (ex) {
                             log(ex.toString());

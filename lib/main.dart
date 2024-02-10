@@ -1,13 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flash_cart/pages/enterotp.dart';
+// import 'package:flash_cart/pages/enterotp.dart';
 import 'firebase_options.dart';
-import 'package:flash_cart/pages/categories.dart';
-import 'package:flash_cart/pages/fruits.dart';
+// import 'package:flash_cart/pages/categories.dart';
+// import 'package:flash_cart/pages/fruits.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_cart/pages/getotp.dart';
 
-import 'pages/getotp.dart';
-// import 'pages/get_otp.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
