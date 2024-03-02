@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
 
 class Categories extends StatelessWidget {
   @override
@@ -23,13 +25,13 @@ class Categories extends StatelessWidget {
           child: GridView.count(
             crossAxisCount: 3,
             children: [
-              CategoryCard(title: 'Vegetables', icon: 'assets/vegetables.svg'),
-              CategoryCard(title: 'Fruits', icon: 'assets/fruits.svg'),
-              CategoryCard(title: 'Edible oil', icon: 'assets/oil.svg'),
-              CategoryCard(title: 'Beverages', icon: 'assets/beverages.svg'),
-              CategoryCard(title: 'Grocery', icon: 'assets/grocery.svg'),
-              CategoryCard(title: 'Babycare', icon: 'assets/babycare.svg'),
-              CategoryCard(title: 'Hygiene', icon: 'assets/hygiene.svg'),
+              CategoryCard(title: 'Vegetables', imagePath: 'categories/vegetables.svg'),
+              CategoryCard(title: 'Fruits', imagePath: 'categories/fruits.svg'),
+              CategoryCard(title: 'Edible oil', imagePath: 'categories/oil.svg'),
+              CategoryCard(title: 'Beverages', imagePath: 'categories/beverages.svg'),
+              CategoryCard(title: 'Grocery', imagePath: 'categories/grocery.svg'),
+              CategoryCard(title: 'Babycare', imagePath: 'categories/babycare.svg'),
+              CategoryCard(title: 'Hygiene', imagePath: 'categories/hygiene.svg'),
             ],
           ),
         ),
@@ -64,24 +66,42 @@ class Categories extends StatelessWidget {
   }
 }
 
+Future<String> getImageUrl(String imagePath) async {
+  final ref = firebase_storage.FirebaseStorage.instance.ref().child(imagePath);
+  final url = await ref.getDownloadURL();
+  return url;
+}
+
 class CategoryCard extends StatelessWidget {
   final String title;
-  final String icon;
+  final String imagePath; // Replace 'icon' with 'imagePath'
 
-  const CategoryCard({required this.title, required this.icon});
+  const CategoryCard({required this.title, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SvgPicture.asset(icon, height: 60),
-          SizedBox(height: 10),
-          Text(title, style: TextStyle(fontWeight: FontWeight.bold),),
-        ],
-      ),
+    return FutureBuilder(
+      future: getImageUrl(imagePath),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return AspectRatio(
+            aspectRatio: 1,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgPicture.network(snapshot.data as String, height: 60),
+                SizedBox(height: 10),
+                Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+              ],
+            ),
+          );
+        } else {
+          return AspectRatio(
+            aspectRatio: 1,
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+      },
     );
   }
 }
