@@ -23,7 +23,6 @@ class CartPage extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Let's order fresh items for you
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24.0),
                 child: Text(
@@ -34,8 +33,6 @@ class CartPage extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // list view of cart
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -43,40 +40,81 @@ class CartPage extends StatelessWidget {
                     itemCount: value.cartItems.length,
                     padding: EdgeInsets.all(12),
                     itemBuilder: (context, index) {
+                      final item = value.cartItems[index];
+                      final totalPrice = double.parse(item[1].toString()) *
+                          value.getQuantityAtIndex(index);
                       return Padding(
                         padding: const EdgeInsets.all(12.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(8)),
-                          child: ListTile(
-                            leading: Image.asset(
-                              value.cartItems[index][2],
-                              height: 36,
+                        child: Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: ListTile(
+                                leading: Image.asset(
+                                  item[2],
+                                  height: 36,
+                                ),
+                                title: Text(
+                                  item[0],
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                                subtitle: Row(
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.remove),
+                                      onPressed: () {
+                                        value.decreaseQuantityAtIndex(index);
+                                      },
+                                    ),
+                                    Text(
+                                      '${value.getQuantityAtIndex(index)}',
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.add),
+                                      onPressed: () {
+                                        value.increaseQuantityAtIndex(index);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            title: Text(
-                              value.cartItems[index][0],
-                              style: const TextStyle(fontSize: 18),
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: IconButton(
+                                icon: const Icon(Icons.cancel),
+                                onPressed: () =>
+                                    Provider.of<CartModel>(
+                                        context, listen: false)
+                                        .removeItemFromCart(index),
+                              ),
                             ),
-                            subtitle: Text(
-                              '\$' + value.cartItems[index][1],
-                              style: const TextStyle(fontSize: 12),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  '\$${totalPrice.toStringAsFixed(2)}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              ),
                             ),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.cancel),
-                              onPressed: () =>
-                                  Provider.of<CartModel>(context, listen: false)
-                                      .removeItemFromCart(index),
-                            ),
-                          ),
+                          ],
                         ),
                       );
                     },
                   ),
                 ),
               ),
-
-              // total amount + pay now
               Padding(
                 padding: const EdgeInsets.all(36.0),
                 child: Container(
@@ -95,9 +133,7 @@ class CartPage extends StatelessWidget {
                             'Total Price',
                             style: TextStyle(color: Colors.green[200]),
                           ),
-
                           const SizedBox(height: 8),
-                          // total price
                           Text(
                             '\$${value.calculateTotal()}',
                             style: const TextStyle(
@@ -108,8 +144,6 @@ class CartPage extends StatelessWidget {
                           ),
                         ],
                       ),
-
-                      // pay now
                       Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.green.shade200),
@@ -161,26 +195,22 @@ class CartPage extends StatelessWidget {
         selectedItemColor: Color(0xff6c63ff),
         unselectedItemColor: Colors.grey,
         onTap: (int index) {
-          switch(index) {
+          switch (index) {
             case 0:
-            // Handle home navigation
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => HomePage()), // Navigate to CartPage
+                MaterialPageRoute(builder: (context) => HomePage()),
               );
               break;
             case 1:
-            // Handle explore navigation
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Categories()), // Navigate to CartPage
+                MaterialPageRoute(builder: (context) => Categories()),
               );
               break;
             case 2:
-            // Handle cart navigation
               break;
             case 3:
-            // Handle account navigation
               break;
           }
         },

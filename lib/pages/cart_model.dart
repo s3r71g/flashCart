@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 class CartModel extends ChangeNotifier {
   // list of items on sale
   final List<List<dynamic>> _shopItems = const [
@@ -10,31 +10,59 @@ class CartModel extends ChangeNotifier {
     ["Water", "1.00", "assets/desi_tomato.png", Colors.blue],
   ];
 
-  // list of cart items
-  List<List<dynamic>> _cartItems = [];
+  // Map to store cart items and their quantities
+  final Map<List<dynamic>, int> _cartItems = {};
 
-  List<List<dynamic>> get cartItems => _cartItems;
+  List<List<dynamic>> get cartItems => _cartItems.keys.toList();
 
   List<List<dynamic>> get shopItems => _shopItems;
 
-  // add item to cart
+  // add item to cart or increment quantity if already in cart
   void addItemToCart(int index) {
-    _cartItems.add(_shopItems[index]);
+    final item = _shopItems[index];
+    if (_cartItems.containsKey(item)) {
+      _cartItems[item] = _cartItems[item]! + 1; // Increment quantity
+    } else {
+      _cartItems[item] = 1; // Add item to cart with quantity 1
+    }
     notifyListeners();
   }
 
   // remove item from cart
   void removeItemFromCart(int index) {
-    _cartItems.removeAt(index);
+    final item = _cartItems.keys.toList()[index];
+    _cartItems.remove(item);
+    notifyListeners();
+  }
+
+  void increaseQuantityAtIndex(int index) {
+    final item = _cartItems.keys.toList()[index];
+    _cartItems[item] = _cartItems[item]! + 1;
+    notifyListeners();
+  }
+
+  void decreaseQuantityAtIndex(int index) {
+    final item = _cartItems.keys.toList()[index];
+    if (_cartItems[item]! > 1) {
+      _cartItems[item] = _cartItems[item]! - 1;
+    } else {
+      _cartItems.remove(item); // Remove item from cart
+    }
     notifyListeners();
   }
 
   // calculate total price
   String calculateTotal() {
     double totalPrice = 0;
-    for (int i = 0; i < cartItems.length; i++) {
-      totalPrice += double.parse(cartItems[i][1]);
-    }
+    _cartItems.forEach((item, quantity) {
+      totalPrice += double.parse(item[1].toString()) * quantity;
+    });
     return totalPrice.toStringAsFixed(2);
+  }
+
+  // Get quantity of a specific item in the cart
+  int getQuantityAtIndex(int index) {
+    final item = _cartItems.keys.toList()[index];
+    return _cartItems[item]!;
   }
 }
