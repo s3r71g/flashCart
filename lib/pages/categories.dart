@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'fruits.dart';
+import 'home_page.dart';
+import 'cart_page.dart';
 
 
 class Categories extends StatelessWidget {
@@ -26,7 +29,16 @@ class Categories extends StatelessWidget {
             crossAxisCount: 3,
             children: [
               CategoryCard(title: 'Vegetables', imagePath: 'categories/vegetables.svg'),
-              CategoryCard(title: 'Fruits', imagePath: 'categories/fruits.svg'),
+              // CategoryCard(title: 'Fruits', imagePath: 'categories/fruits.svg'),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Fruits()), // Navigate to fruits.dart
+                  );
+                },
+                child: CategoryCard(title: 'Fruits', imagePath: 'categories/fruits.svg'),
+              ),
               CategoryCard(title: 'Edible oil', imagePath: 'categories/oil.svg'),
               CategoryCard(title: 'Beverages', imagePath: 'categories/beverages.svg'),
               CategoryCard(title: 'Grocery', imagePath: 'categories/grocery.svg'),
@@ -36,6 +48,7 @@ class Categories extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          currentIndex: 1,
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -54,10 +67,30 @@ class Categories extends StatelessWidget {
               label: 'Account',
             ),
           ],
-          selectedItemColor: Colors.blue,
+          selectedItemColor: Color(0xff6c63ff),
           unselectedItemColor: Colors.grey,
           onTap: (int index) {
-            // Handle bottom navigation bar item clicks here.
+            switch(index) {
+              case 0:
+              // Handle home navigation
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()), // Navigate to CartPage
+                );
+                break;
+              case 1:
+              // Handle explore navigation
+                break;
+              case 2:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CartPage()), // Navigate to CartPage
+                );
+                break;
+              case 3:
+              // Handle account navigation
+                break;
+            }
           },
         ),
       ),

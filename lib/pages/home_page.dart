@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'grocery_item_title.dart';
 import 'cart_model.dart';
 import 'cart_page.dart';
+import 'categories.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -51,14 +52,14 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white54,
         onPressed: () => Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => CartPage(),
           ),
         ),
-        child: const Icon(Icons.shopping_bag),
+        child: const Icon(Icons.shopping_cart),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,6 +130,51 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.explore),
+            label: 'Explore',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: 'Account',
+          ),
+        ],
+        selectedItemColor: Color(0xff6c63ff),
+        unselectedItemColor: Colors.grey,
+        onTap: (int index) {
+          switch(index) {
+            case 0:
+            // Handle home navigation
+              break;
+            case 1:
+            // Handle explore navigation
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Categories()), // Navigate to CartPage
+              );
+              break;
+            case 2:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartPage()), // Navigate to CartPage
+              );
+              break;
+            case 3:
+            // Handle account navigation
+              break;
+          }
+        },
       ),
     );
   }

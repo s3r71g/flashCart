@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'cart_model.dart';
+import 'home_page.dart';
+import 'categories.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -134,6 +136,53 @@ class CartPage extends StatelessWidget {
               )
             ],
           );
+        },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 2,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.explore),
+            label: 'Explore',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: 'Account',
+          ),
+        ],
+        selectedItemColor: Color(0xff6c63ff),
+        unselectedItemColor: Colors.grey,
+        onTap: (int index) {
+          switch(index) {
+            case 0:
+            // Handle home navigation
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()), // Navigate to CartPage
+              );
+              break;
+            case 1:
+            // Handle explore navigation
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Categories()), // Navigate to CartPage
+              );
+              break;
+            case 2:
+            // Handle cart navigation
+              break;
+            case 3:
+            // Handle account navigation
+              break;
+          }
         },
       ),
     );

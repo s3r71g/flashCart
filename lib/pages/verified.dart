@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'categories.dart';
-// import 'getotp.dart';
+import 'home_page.dart';
 
 class Verified extends StatefulWidget {
   const Verified({Key? key}) : super(key: key);
@@ -109,7 +108,7 @@ class _VerifiedState extends State<Verified> {
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => Categories()),
+                            MaterialPageRoute(builder: (context) => HomePage()),
                           );
                         },
                         style: ButtonStyle(

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'categories.dart';
+import 'cart_page.dart';
+import 'home_page.dart';
 
 class Fruits extends StatelessWidget {
   @override
@@ -47,6 +50,7 @@ class Fruits extends StatelessWidget {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
+          currentIndex: 1,
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -65,13 +69,38 @@ class Fruits extends StatelessWidget {
               label: 'Account',
             ),
           ],
-          selectedItemColor: Colors.blue,
+          selectedItemColor: Color(0xff6c63ff),
           unselectedItemColor: Colors.grey,
           onTap: (int index) {
-            // Handle bottom navigation bar item clicks here.
+            switch(index) {
+              case 0:
+              // Handle home navigation
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()), // Navigate to CartPage
+                );
+                break;
+              case 1:
+              // Handle explore navigation
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Categories()), // Navigate to CartPage
+                );
+                break;
+              case 2:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CartPage()), // Navigate to CartPage
+                );
+                break;
+              case 3:
+              // Handle account navigation
+                break;
+            }
           },
         ),
       ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
