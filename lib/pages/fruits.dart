@@ -1,7 +1,11 @@
+import 'package:flash_cart/pages/user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'cart_model.dart';
 import 'categories.dart';
 import 'cart_page.dart';
+import 'grocery_item_title.dart';
 import 'home_page.dart';
 
 class Fruits extends StatelessWidget {
@@ -22,35 +26,88 @@ class Fruits extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Colors.white,
         ),
-        body: ListView(
-          children: [
-            CategoryCard(
-                title: 'Fruits & Vegetables',
-                icon: 'assets/vegetables.svg',
-                items: [
-                  ItemCard(
-                    title: 'Freshly Fresh',
-                    items: [
-                      'Desi Tomato (750 g)',
-                      'Kashmeri Apple (1000g)',
-                      'Shop Explore Potato (300g)',
-                      'Ooty Carrot (1000g)',
-                    ],
-                    images: [
-                      'assets/desi_tomato.png',
-                      'assets/kashmeri_apple.png',
-                      'assets/shop_explore_potato.png',
-                      'assets/ooty_carrot.png',
-                    ],
+        // floatingActionButton: FloatingActionButton(
+        //   backgroundColor: Colors.white54,
+        //   onPressed: () => Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => CartPage(),
+        //     ),
+        //   ),
+        //   // child: const Icon(Icons.shopping_cart),
+        // ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // const SizedBox(height: 48),
+              //
+              // const Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 24.0),
+              //   child: Text('Good morning,'),
+              // ),
+              //
+              // const SizedBox(height: 4),
+              //
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              //   child: Text(
+              //     "Let's order fresh items for you",
+              //     style: TextStyle(
+              //       fontSize: 36,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+              // ),
+
+              // const SizedBox(height: 24),
+              //
+              // const Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 24.0),
+              //   child: Divider(),
+              // ),
+
+              const SizedBox(height: 24),
+
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                child: Text(
+                  "Fruits",
+                  style: TextStyle(
+                    fontSize: 18,
                   ),
-                  // ItemCard(title: 'Exotics', items: [
-                  //   'Ooty Carrot (1000g)',
-                  // ]),
-                ]),
-          ],
+                ),
+              ),
+
+              Consumer<CartModel>(
+                builder: (context, value, child) {
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(12),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1 / 1.2,
+                    ),
+                    itemCount: value.shopItems.length,
+                    itemBuilder: (context, index) {
+                      return GroceryItemTile(
+                        itemName: value.shopItems[index][0],
+                        itemPrice: value.shopItems[index][1],
+                        imagePath: value.shopItems[index][2],
+                        color: value.shopItems[index][3],
+                        onPressed: () =>
+                            Provider.of<CartModel>(context, listen: false)
+                                .addItemToCart(index),
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: 1,
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -72,29 +129,29 @@ class Fruits extends StatelessWidget {
           selectedItemColor: Color(0xff6c63ff),
           unselectedItemColor: Colors.grey,
           onTap: (int index) {
-            switch(index) {
+            switch (index) {
               case 0:
               // Handle home navigation
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomePage()), // Navigate to CartPage
-                );
                 break;
               case 1:
               // Handle explore navigation
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Categories()), // Navigate to CartPage
+                  MaterialPageRoute(builder: (context) => Categories()),
                 );
                 break;
               case 2:
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CartPage()), // Navigate to CartPage
+                  MaterialPageRoute(builder: (context) => CartPage()),
                 );
                 break;
               case 3:
               // Handle account navigation
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserDetails()), // Navigate to CartPage
+                );
                 break;
             }
           },
