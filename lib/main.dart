@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flash_cart/pages/cart_page.dart';
 import 'package:flash_cart/pages/home.dart';
 import 'package:flash_cart/pages/home_page.dart';
+import 'package:flash_cart/pages/splash_screen.dart';
 // import 'package:flash_cart/pages/enterotp.dart';
 import 'firebase_options.dart';
 import 'package:flash_cart/pages/categories.dart';
@@ -10,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flash_cart/pages/getotp.dart';
 import 'pages/cart_model.dart';
 import 'package:provider/provider.dart';
-import 'pages/splash_screen.dart';
+// import 'pages/splash_screen.dart';
+import 'pages/user_details.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +32,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
         title: 'Flutter OTP Verification',
         debugShowCheckedModeBanner: false,
-        home: Splash()
+        home: Splash(),
+        //   home:UserDetails(),
         // home: HomePagex(),
       // home: Register(),
       // home: Otp(),

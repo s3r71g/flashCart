@@ -1,10 +1,11 @@
+import 'user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'grocery_item_title.dart';
 import 'cart_model.dart';
 import 'cart_page.dart';
 import 'categories.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -174,6 +175,10 @@ class _HomePageState extends State<HomePage> {
               break;
             case 3:
             // Handle account navigation
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserDetails()), // Navigate to CartPage
+              );
               break;
           }
         },

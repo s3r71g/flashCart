@@ -1,3 +1,4 @@
+import 'user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -211,6 +212,10 @@ class CartPage extends StatelessWidget {
             case 2:
               break;
             case 3:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserDetails()), // Navigate to CartPage
+              );
               break;
           }
         },
