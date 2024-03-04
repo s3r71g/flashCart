@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'cart_page.dart';
 import 'categories.dart';
@@ -15,26 +19,8 @@ class _UserDetailsState extends State<UserDetails> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
-
   String _phoneNumberErrorText = '';
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _phoneNumberController.dispose();
-    _addressController.dispose();
-    super.dispose();
-  }
-
-  void _validatePhoneNumber(String value) {
-    setState(() {
-      if (value.length != 10) {
-        _phoneNumberErrorText = 'Phone number must be 10 digits long';
-      } else {
-        _phoneNumberErrorText = '';
-      }
-    });
-  }
+  File? _selectedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +44,20 @@ class _UserDetailsState extends State<UserDetails> {
               children: [
                 CircleAvatar(
                   radius: 50,
-                  child: Icon(Icons.person, size: 50),
+                  backgroundImage: _selectedImage != null
+                      ? FileImage(_selectedImage!) as ImageProvider<Object>?
+                      : null, // Set to null if there's no custom image
+                  child: _selectedImage == null
+                      ? Icon(Icons.person, size: 50, color: Colors.white) // Default Icon
+                      : null, // Hide the Icon when a custom image is selected
+                ),
+
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    _selectImage();
+                  },
+                  child: Text('Choose Photo'),
                 ),
                 SizedBox(height: 20),
                 TextField(
@@ -76,8 +75,9 @@ class _UserDetailsState extends State<UserDetails> {
                   decoration: InputDecoration(
                     labelText: 'Phone Number',
                     border: OutlineInputBorder(),
-                    errorText:
-                    _phoneNumberErrorText.isNotEmpty ? _phoneNumberErrorText : null,
+                    errorText: _phoneNumberErrorText.isNotEmpty
+                        ? _phoneNumberErrorText
+                        : null,
                   ),
                 ),
                 SizedBox(height: 10),
@@ -91,7 +91,6 @@ class _UserDetailsState extends State<UserDetails> {
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    // Save user details logic here
                     saveUserDetails();
                   },
                   child: Text('Save'),
@@ -126,14 +125,12 @@ class _UserDetailsState extends State<UserDetails> {
         onTap: (int index) {
           switch (index) {
             case 0:
-            // Handle home navigation
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => HomePage()),
               );
               break;
             case 1:
-            // Handle explore navigation
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Categories()),
@@ -146,7 +143,6 @@ class _UserDetailsState extends State<UserDetails> {
               );
               break;
             case 3:
-            // Handle account navigation
               break;
           }
         },
@@ -154,49 +150,95 @@ class _UserDetailsState extends State<UserDetails> {
     );
   }
 
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _phoneNumberController.dispose();
+    _addressController.dispose();
+    super.dispose();
+  }
+
+  void _validatePhoneNumber(String value) {
+    setState(() {
+      if (value.length != 10) {
+        _phoneNumberErrorText = 'Phone number must be 10 digits long';
+      } else {
+        _phoneNumberErrorText = '';
+      }
+    });
+  }
+
+  void _selectImage() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Choose an option"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+                _getImage(ImageSource.gallery); // Open gallery
+              },
+              child: Text("Gallery"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+                _getImage(ImageSource.camera); // Open camera
+              },
+              child: Text("Camera"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _getImage(ImageSource source) async {
+    final pickedImage = await ImagePicker().pickImage(source: source);
+
+    setState(() {
+      if (pickedImage != null) {
+        _selectedImage = File(pickedImage.path);
+      }
+    });
+  }
+
   void saveUserDetails() async {
-    // Initialize Firebase
     await Firebase.initializeApp();
 
-    // Get a reference to the Firestore instance
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    // Construct a map containing the user details
     Map<String, dynamic> userDetails = {
       'username': _usernameController.text,
       'phoneNumber': _phoneNumberController.text,
       'address': _addressController.text,
     };
 
-    // Use the username as the document ID
     String username = _usernameController.text;
 
-    // Add the user details to Firestore with the specified document ID
     try {
-      await firestore.collection('users').doc(username).set(userDetails);
+      String imagePath = await uploadImage();
+      userDetails['imagePath'] = imagePath;
+
+      await firestore.collection('Users').doc(username).set(userDetails);
+
       print('User details saved successfully');
-      // Optionally, you can show a success message or navigate to another screen.
     } catch (error) {
       print('Error saving user details: $error');
-      // Handle errors as needed
     }
   }
 
-}
+  Future<String> uploadImage() async {
+    FirebaseStorage storage = FirebaseStorage.instance;
+    Reference storageReference =
+    storage.ref().child('user_images/${_usernameController.text}.jpg');
 
-void main() {
-  runApp(MyApp());
-}
+    UploadTask uploadTask = storageReference.putFile(_selectedImage!);
+    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'User Details',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: UserDetails(),
-    );
+    String downloadURL = await taskSnapshot.ref.getDownloadURL();
+
+    return downloadURL;
   }
 }
