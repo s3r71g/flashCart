@@ -7,6 +7,7 @@ import 'categories.dart';
 import 'cart_page.dart';
 import 'grocery_item_title.dart';
 import 'home_page.dart';
+import 'package:flash_cart/pages/account_bottom_navigation_bar_item.dart' as AccountItem;
 
 class Fruits extends StatelessWidget {
   @override
@@ -15,13 +16,10 @@ class Fruits extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {}),
-          title: Center(
-            child: Text("Categories",
-                style: TextStyle(fontWeight: FontWeight.bold)),
-          ),
-          actions: [
-            IconButton(icon: Icon(Icons.search), onPressed: () {}),
-          ],
+          title: Text("Fruits",style: TextStyle(fontWeight: FontWeight.bold),),
+          // actions: [
+          //   IconButton(icon: Icon(Icons.search), onPressed: () {}),
+          // ],
           elevation: 20.0,
           centerTitle: true,
           backgroundColor: Colors.white,
@@ -69,15 +67,15 @@ class Fruits extends StatelessWidget {
 
               const SizedBox(height: 24),
 
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                child: Text(
-                  "Fruits",
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
+              // const Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 24.0),
+              //   child: Text(
+              //     "Fruits",
+              //     style: TextStyle(
+              //       fontSize: 18,
+              //     ),
+              //   ),
+              // ),
 
               Consumer<CartModel>(
                 builder: (context, value, child) {
@@ -108,6 +106,7 @@ class Fruits extends StatelessWidget {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          currentIndex: 1,
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -122,7 +121,7 @@ class Fruits extends StatelessWidget {
               label: 'Cart',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
+              icon: AccountItem.AccountBottomNavigationBarItem(), // Use AccountBottomNavigationBarItem
               label: 'Account',
             ),
           ],
@@ -132,6 +131,10 @@ class Fruits extends StatelessWidget {
             switch (index) {
               case 0:
               // Handle home navigation
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
                 break;
               case 1:
               // Handle explore navigation

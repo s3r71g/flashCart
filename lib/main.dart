@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flash_cart/pages/cart_page.dart';
+// import 'package:flash_cart/pages/fruit_model.dart';
 import 'package:flash_cart/pages/fruits.dart';
 import 'package:flash_cart/pages/home.dart';
 import 'package:flash_cart/pages/home_page.dart';
@@ -12,6 +13,7 @@ import 'package:flash_cart/pages/categories.dart';
 // import 'package:flash_cart/pages/fruits.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_cart/pages/getotp.dart';
+import 'models/fruit_model.dart';
 import 'pages/cart_model.dart';
 import 'package:provider/provider.dart';
 // import 'pages/splash_screen.dart';
@@ -34,6 +36,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => CartModel()),
         ChangeNotifierProvider(create: (context) => UserProfilePhotoProvider()),
+        // ChangeNotifierProvider(create: (context) => FruitModel()),
       ],
         child: MaterialApp(
         title: 'Flutter OTP Verification',

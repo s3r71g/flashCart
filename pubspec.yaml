@@ -84,6 +84,16 @@ flutter:
     - assets/kashmeri_apple.png
     - assets/shop_explore_potato.png
     - assets/ooty_carrot.png
+    - assets/2-2-avocado-high-quality-png-thumb.png
+    - assets/avocado.jpg
+    - assets/oliveoil.jpg
+    - assets/chicken.jpg
+    - assets/watermelon.png
+    - assets/mango.png
+    - assets/banana.png
+    - assets/grapes.jpg
+    - assets/orange.png
+    - assets/strawberry.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

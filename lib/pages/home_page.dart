@@ -145,10 +145,10 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.explore),
             label: 'Explore',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Cart',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.shopping_cart),
+          //   label: 'Cart',
+          // ),
           BottomNavigationBarItem(
             icon: AccountItem.AccountBottomNavigationBarItem(), // Use AccountBottomNavigationBarItem
             label: 'Account',
@@ -168,13 +168,13 @@ class _HomePageState extends State<HomePage> {
                 MaterialPageRoute(builder: (context) => Categories()),
               );
               break;
+            // case 2:
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (context) => CartPage()),
+            //   );
+            //   break;
             case 2:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CartPage()),
-              );
-              break;
-            case 3:
             // Handle account navigation
               Navigator.push(
                 context,
