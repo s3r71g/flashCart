@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'cart_page.dart';
 import 'categories.dart';
@@ -10,12 +12,17 @@ class UserDetails extends StatefulWidget {
 }
 
 class _UserDetailsState extends State<UserDetails> {
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+
   String _phoneNumberErrorText = '';
 
   @override
   void dispose() {
+    _usernameController.dispose();
     _phoneNumberController.dispose();
+    _addressController.dispose();
     super.dispose();
   }
 
@@ -33,7 +40,10 @@ class _UserDetailsState extends State<UserDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("User Details",style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(
+          "User Details",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         elevation: 20.0,
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -52,6 +62,7 @@ class _UserDetailsState extends State<UserDetails> {
                 ),
                 SizedBox(height: 20),
                 TextField(
+                  controller: _usernameController,
                   decoration: InputDecoration(
                     labelText: 'Username',
                     border: OutlineInputBorder(),
@@ -65,11 +76,13 @@ class _UserDetailsState extends State<UserDetails> {
                   decoration: InputDecoration(
                     labelText: 'Phone Number',
                     border: OutlineInputBorder(),
-                    errorText: _phoneNumberErrorText.isNotEmpty ? _phoneNumberErrorText : null,
+                    errorText:
+                    _phoneNumberErrorText.isNotEmpty ? _phoneNumberErrorText : null,
                   ),
                 ),
                 SizedBox(height: 10),
                 TextField(
+                  controller: _addressController,
                   decoration: InputDecoration(
                     labelText: 'Address',
                     border: OutlineInputBorder(),
@@ -79,6 +92,7 @@ class _UserDetailsState extends State<UserDetails> {
                 ElevatedButton(
                   onPressed: () {
                     // Save user details logic here
+                    saveUserDetails();
                   },
                   child: Text('Save'),
                 ),
@@ -110,12 +124,12 @@ class _UserDetailsState extends State<UserDetails> {
         selectedItemColor: Color(0xff6c63ff),
         unselectedItemColor: Colors.grey,
         onTap: (int index) {
-          switch(index) {
+          switch (index) {
             case 0:
             // Handle home navigation
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => HomePage()), // Navigate to CartPage
+                MaterialPageRoute(builder: (context) => HomePage()),
               );
               break;
             case 1:
@@ -128,7 +142,7 @@ class _UserDetailsState extends State<UserDetails> {
             case 2:
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CartPage()), // Navigate to CartPage
+                MaterialPageRoute(builder: (context) => CartPage()),
               );
               break;
             case 3:
@@ -137,6 +151,52 @@ class _UserDetailsState extends State<UserDetails> {
           }
         },
       ),
+    );
+  }
+
+  void saveUserDetails() async {
+    // Initialize Firebase
+    await Firebase.initializeApp();
+
+    // Get a reference to the Firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Construct a map containing the user details
+    Map<String, dynamic> userDetails = {
+      'username': _usernameController.text,
+      'phoneNumber': _phoneNumberController.text,
+      'address': _addressController.text,
+    };
+
+    // Use the username as the document ID
+    String username = _usernameController.text;
+
+    // Add the user details to Firestore with the specified document ID
+    try {
+      await firestore.collection('users').doc(username).set(userDetails);
+      print('User details saved successfully');
+      // Optionally, you can show a success message or navigate to another screen.
+    } catch (error) {
+      print('Error saving user details: $error');
+      // Handle errors as needed
+    }
+  }
+
+}
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'User Details',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: UserDetails(),
     );
   }
 }
