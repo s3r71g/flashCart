@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flash_cart/pages/getotp.dart';
 import 'pages/cart_model.dart';
 import 'package:provider/provider.dart';
+import 'pages/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,8 +30,9 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
         title: 'Flutter OTP Verification',
         debugShowCheckedModeBanner: false,
+        home: Splash()
         // home: HomePagex(),
-      home: Register(),
+      // home: Register(),
       // home: Otp(),
       // home: Categories(),
       // home: Fruits(),
