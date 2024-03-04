@@ -1,17 +1,20 @@
-import 'user_details.dart';
+import 'package:flash_cart/pages/user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'fruits.dart';
 import 'home_page.dart';
 import 'cart_page.dart';
+import 'package:flash_cart/pages/account_bottom_navigation_bar_item.dart' as AccountItem; // Import AccountBottomNavigationBarItem from account_bottom_navigation_bar_item.dart with a prefix
+
+
+
 
 
 class Categories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: (){},),
           title: Text("Categories",style: TextStyle(fontWeight: FontWeight.bold),),
@@ -63,7 +66,7 @@ class Categories extends StatelessWidget {
               label: 'Cart',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
+              icon: AccountItem.AccountBottomNavigationBarItem(), // Use AccountBottomNavigationBarItem
               label: 'Account',
             ),
           ],
@@ -97,9 +100,9 @@ class Categories extends StatelessWidget {
             }
           },
         ),
-      ),
-      debugShowCheckedModeBanner: false,
-    );
+      // debugShowCheckedModeBanner: false,
+      );
+
   }
 }
 

@@ -5,10 +5,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:provider/provider.dart';
 
+import 'user_profile_photo_provider.dart'; // Import UserProfilePhotoProvider
 import 'cart_page.dart';
 import 'categories.dart';
 import 'home_page.dart';
+import 'package:flash_cart/pages/account_bottom_navigation_bar_item.dart' as AccountItem;
 
 class UserDetails extends StatefulWidget {
   @override
@@ -20,7 +23,13 @@ class _UserDetailsState extends State<UserDetails> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   String _phoneNumberErrorText = '';
-  File? _selectedImage;
+  late UserProfilePhotoProvider _userProfilePhotoProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _userProfilePhotoProvider = Provider.of<UserProfilePhotoProvider>(context, listen: false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +53,10 @@ class _UserDetailsState extends State<UserDetails> {
               children: [
                 CircleAvatar(
                   radius: 50,
-                  backgroundImage: _selectedImage != null
-                      ? FileImage(_selectedImage!) as ImageProvider<Object>?
+                  backgroundImage: _userProfilePhotoProvider.selectedImagePath != null
+                      ? FileImage(File(_userProfilePhotoProvider.selectedImagePath!)) as ImageProvider<Object>?
                       : null, // Set to null if there's no custom image
-                  child: _selectedImage == null
+                  child: _userProfilePhotoProvider.selectedImagePath == null
                       ? Icon(Icons.person, size: 50, color: Colors.white) // Default Icon
                       : null, // Hide the Icon when a custom image is selected
                 ),
@@ -116,7 +125,7 @@ class _UserDetailsState extends State<UserDetails> {
             label: 'Cart',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
+            icon: AccountItem.AccountBottomNavigationBarItem(), // Use AccountBottomNavigationBarItem
             label: 'Account',
           ),
         ],
@@ -194,12 +203,14 @@ class _UserDetailsState extends State<UserDetails> {
       },
     );
   }
+
   void _getImage(ImageSource source) async {
     final pickedImage = await ImagePicker().pickImage(source: source);
 
     setState(() {
       if (pickedImage != null) {
-        _selectedImage = File(pickedImage.path);
+        // Update selected image path using provider
+        context.read<UserProfilePhotoProvider>().setSelectedImagePath(pickedImage.path);
       }
     });
   }
@@ -221,7 +232,10 @@ class _UserDetailsState extends State<UserDetails> {
       String imagePath = await uploadImage();
       userDetails['imagePath'] = imagePath;
 
-      await firestore.collection('Users').doc(username).set(userDetails);
+      // Set selected image path using provider
+      Provider.of<UserProfilePhotoProvider>(context, listen: false).setSelectedImagePath(imagePath);
+
+      await firestore.collection('users').doc(username).set(userDetails);
 
       print('User details saved successfully');
     } catch (error) {
@@ -234,11 +248,28 @@ class _UserDetailsState extends State<UserDetails> {
     Reference storageReference =
     storage.ref().child('user_images/${_usernameController.text}.jpg');
 
-    UploadTask uploadTask = storageReference.putFile(_selectedImage!);
+    UploadTask uploadTask =
+    storageReference.putFile(File(_userProfilePhotoProvider.selectedImagePath!));
     TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
 
     String downloadURL = await taskSnapshot.ref.getDownloadURL();
 
     return downloadURL;
+  }
+}
+
+class AccountBottomNavigationBarItem extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<UserProfilePhotoProvider>(
+      builder: (context, userProfilePhotoProvider, _) {
+        return userProfilePhotoProvider.selectedImagePath != null
+            ? CircleAvatar(
+          radius: 14,
+          backgroundImage: FileImage(File(userProfilePhotoProvider.selectedImagePath!)),
+        )
+            : Icon(Icons.account_circle);
+      },
+    );
   }
 }

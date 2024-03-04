@@ -3,6 +3,7 @@ import 'package:flash_cart/pages/cart_page.dart';
 import 'package:flash_cart/pages/home.dart';
 import 'package:flash_cart/pages/home_page.dart';
 import 'package:flash_cart/pages/splash_screen.dart';
+import 'package:flash_cart/pages/user_profile_photo_provider.dart';
 // import 'package:flash_cart/pages/enterotp.dart';
 import 'firebase_options.dart';
 import 'package:flash_cart/pages/categories.dart';
@@ -27,8 +28,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => CartModel(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => CartModel()),
+        ChangeNotifierProvider(create: (context) => UserProfilePhotoProvider()),
+      ],
         child: MaterialApp(
         title: 'Flutter OTP Verification',
         debugShowCheckedModeBanner: false,

@@ -6,6 +6,7 @@ import 'cart_model.dart';
 import 'cart_page.dart';
 import 'categories.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flash_cart/pages/account_bottom_navigation_bar_item.dart' as AccountItem;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -149,7 +150,7 @@ class _HomePageState extends State<HomePage> {
             label: 'Cart',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
+            icon: AccountItem.AccountBottomNavigationBarItem(), // Use AccountBottomNavigationBarItem
             label: 'Account',
           ),
         ],
