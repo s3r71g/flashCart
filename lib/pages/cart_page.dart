@@ -1,3 +1,5 @@
+import 'package:flash_cart/pages/payment.dart';
+
 import 'user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +8,9 @@ import 'cart_model.dart';
 import 'home_page.dart';
 import 'categories.dart';
 import 'package:flash_cart/pages/account_bottom_navigation_bar_item.dart' as AccountItem;
+
+
+import 'package:flash_cart/pages/payment.dart'; // Import the PaymentPage
 
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -101,7 +106,7 @@ class CartPage extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  '\$${totalPrice.toStringAsFixed(2)}',
+                                  '\₹${totalPrice.toStringAsFixed(2)}',
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
@@ -137,7 +142,7 @@ class CartPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            '\$${value.calculateTotal()}',
+                            '\₹${value.calculateTotal()}',
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -146,24 +151,39 @@ class CartPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.green.shade200),
-                          borderRadius: BorderRadius.circular(28),
-                        ),
-                        padding: const EdgeInsets.all(12),
-                        child: Row(
-                          children: const [
-                            Text(
-                              'Pay Now',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: Colors.white,
-                            ),
-                          ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => PaymentInit(
+
+                            amount: double.parse(value.calculateTotal()),
+                             // Pass the total amount to PaymentInit
+                              metroCard: '123456789', // Example metro card number
+                              passedVals: {}, // Example passed values
+                              source: 'SmartCard', // Example source
+                            )),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.green.shade200),
+                            borderRadius: BorderRadius.circular(28),
+                          ),
+                          padding: const EdgeInsets.all(12),
+                          child: Row(
+                            children: const [
+                              Text(
+                                'Pay Now',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -215,7 +235,7 @@ class CartPage extends StatelessWidget {
             case 3:
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => UserDetails()), // Navigate to CartPage
+                MaterialPageRoute(builder: (context) => UserDetails()), // Navigate to UserDetails
               );
               break;
           }

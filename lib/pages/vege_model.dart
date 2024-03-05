@@ -12,14 +12,14 @@ class VegeModel extends ChangeNotifier implements ProductModel {
   // list of items on sale
   final List<List<dynamic>> _shopItems = const [
     // [ itemName, itemPrice, imagePath, color ]
-    ["Cucumber", "1.00", "assets/mango.png", Colors.blue],
-    ["Tomato", "4.00", "assets/avocado.jpg", Colors.green],
+    ["Cucumber", "1.00", "assets/cucumber.png", Colors.blue],
+    ["Tomato", "4.00", "assets/tomato.png", Colors.green],
     ["Carrot", "2.50", "assets/ooty_carrot.png", Colors.yellow],
-    ["Potato", "12.80", "assets/strawberry.jpg", Colors.brown],
-    ["Cabbage", "4.00", "assets/grapes.jpg", Colors.green],
-    ["Green Peas", "2.50", "assets/orange.png", Colors.yellow],
-    ["Garlic", "2.50", "assets/chicken.jpg", Colors.blue],
-    ["Cauliflower", "1.00", "assets/oliveoil.jpg", Colors.yellow],
+    ["Potato", "12.80", "assets/potato.png", Colors.brown],
+    ["Cabbage", "4.00", "assets/cabbage.png", Colors.green],
+    ["Green Peas", "2.50", "assets/greenpeas.png", Colors.yellow],
+    ["Garlic", "2.50", "assets/garli.png", Colors.blue],
+    ["Cauliflower", "1.00", "assets/caauliflower.png", Colors.yellow],
   ];
 
   // Map to store cart items and their quantities

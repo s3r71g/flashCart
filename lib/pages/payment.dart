@@ -191,8 +191,8 @@ class _PaymentInitState extends State<PaymentInit> {
   Future<UpiResponse> initiateTransaction(UpiApp app) async {
     return _upi.startTransaction(
       app: app,
-      receiverUpiId: "nidhimn48@oksbi",
-      receiverName: 'Pulkit Raina',
+      receiverUpiId: "UPI_id",
+      receiverName: 'Username',
       transactionRefId: DateTime.now().millisecondsSinceEpoch.toString(),
       transactionNote: 'Trial Transaction!',
       amount: widget.amount,

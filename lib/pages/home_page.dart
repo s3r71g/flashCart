@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         title: Text(
-          widget.address ?? 'Bangalore India',
+          widget.address ?? 'Unknown Location',
           style: TextStyle(
             fontSize: 16,
             color: Colors.grey[700],
@@ -180,6 +180,12 @@ class _HomePageState extends State<HomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => UserDetails()), // Navigate to CartPage
+              );
+              break;
+            case 3:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserDetails()), // Navigate to UserDetails
               );
               break;
           }

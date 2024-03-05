@@ -95,6 +95,13 @@ flutter:
     - assets/grapes.jpg
     - assets/orange.png
     - assets/strawberry.jpg
+    - assets/caauliflower.png
+    - assets/cabbage.png
+    - assets/cucumber.png
+    - assets/garlic.png
+    - assets/greenpeas.png
+    - assets/potato.png
+    - assets/tomoto.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

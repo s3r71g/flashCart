@@ -3,7 +3,7 @@ import 'package:flash_cart/pages/vege_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'cart_model.dart';
+import 'vege_model.dart';
 
 import 'categories.dart';
 import 'cart_page.dart';
@@ -97,7 +97,7 @@ class Vegetables extends StatelessWidget {
                         imagePath: value.shopItems[index][2],
                         color: value.shopItems[index][3],
                         onPressed: () =>
-                            Provider.of<CartModel>(context, listen: false)
+                            Provider.of<VegeModel>(context, listen: false)
                                 .addItemToCart(index),
                       );
                     },

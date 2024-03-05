@@ -31,7 +31,16 @@ class Categories extends StatelessWidget {
           child: GridView.count(
             crossAxisCount: 3,
             children: [
-              CategoryCard(title: 'Vegetables', imagePath: 'categories/vegetables.svg'),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Fruits()), // Navigate to fruits.dart
+                  );
+                },
+                child: CategoryCard(title: 'Vegetables', imagePath: 'categories/vegetables.svg'),
+              ),
+
               // CategoryCard(title: 'Fruits', imagePath: 'categories/fruits.svg'),
               GestureDetector(
                 onTap: () {

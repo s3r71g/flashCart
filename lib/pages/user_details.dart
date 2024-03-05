@@ -239,7 +239,7 @@ class _UserDetailsState extends State<UserDetails> {
       // Set selected image path using provider
       Provider.of<UserProfilePhotoProvider>(context, listen: false).setSelectedImagePath(imagePath);
 
-      await firestore.collection('users').doc(username).set(userDetails);
+      await firestore.collection('Users').doc(username).set(userDetails);
 
       print('User details saved successfully');
       Navigator.push(

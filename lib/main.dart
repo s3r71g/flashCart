@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
         title: 'Flutter OTP Verification',
         debugShowCheckedModeBanner: false,
-        // home: Splash(),
+        home: Splash(),
         // home: PaymentInit(
         //   passedVals: {},
         // ),
@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
       // home: Fruits(),
       // home: HomePage(),
       // home:CartPage(),
-          home: Vegetables(),
+      //     home: Vegetables(),
         ),
     );
   }
