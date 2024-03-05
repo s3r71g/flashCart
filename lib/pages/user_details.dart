@@ -14,6 +14,10 @@ import 'home_page.dart';
 import 'package:flash_cart/pages/account_bottom_navigation_bar_item.dart' as AccountItem;
 
 class UserDetails extends StatefulWidget {
+  // final String address;
+  //
+  // UserDetails({required this.address});
+
   @override
   _UserDetailsState createState() => _UserDetailsState();
 }
@@ -238,6 +242,12 @@ class _UserDetailsState extends State<UserDetails> {
       await firestore.collection('users').doc(username).set(userDetails);
 
       print('User details saved successfully');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(address: _addressController.text),
+        ),
+      );
     } catch (error) {
       print('Error saving user details: $error');
     }

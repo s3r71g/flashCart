@@ -9,8 +9,9 @@ import 'categories.dart';
 import 'package:flash_cart/pages/account_bottom_navigation_bar_item.dart' as AccountItem;
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final String? address;
 
+  const HomePage({Key? key, this.address}) : super(key: key);
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -30,7 +31,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         title: Text(
-          'Sydney, Australia',
+          widget.address ?? 'Unknown Location',
           style: TextStyle(
             fontSize: 16,
             color: Colors.grey[700],
@@ -38,20 +39,20 @@ class _HomePageState extends State<HomePage> {
         ),
         centerTitle: false,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 24.0),
-            child: Container(
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                Icons.person,
-                color: Colors.grey,
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 24.0),
+          //   child: Container(
+          //     padding: EdgeInsets.all(16),
+          //     decoration: BoxDecoration(
+          //       color: Colors.grey[200],
+          //       borderRadius: BorderRadius.circular(12),
+          //     ),
+          //     child: Icon(
+          //       Icons.person,
+          //       color: Colors.grey,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
