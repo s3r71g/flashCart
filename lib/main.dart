@@ -7,6 +7,7 @@ import 'package:flash_cart/pages/home_page.dart';
 import 'package:flash_cart/pages/payment.dart';
 import 'package:flash_cart/pages/splash_screen.dart';
 import 'package:flash_cart/pages/user_profile_photo_provider.dart';
+import 'package:flash_cart/pages/vegetable.dart';
 // import 'package:flash_cart/pages/enterotp.dart';
 import 'firebase_options.dart';
 import 'package:flash_cart/pages/categories.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flash_cart/pages/getotp.dart';
 import 'models/fruit_model.dart';
 import 'pages/cart_model.dart';
+import 'pages/vege_model.dart';
 import 'package:provider/provider.dart';
 // import 'pages/splash_screen.dart';
 import 'pages/user_details.dart';
@@ -35,13 +37,14 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => CartModel()),
+        ChangeNotifierProvider(create: (context) => VegeModel()),
         ChangeNotifierProvider(create: (context) => UserProfilePhotoProvider()),
         // ChangeNotifierProvider(create: (context) => FruitModel()),
       ],
         child: MaterialApp(
         title: 'Flutter OTP Verification',
         debugShowCheckedModeBanner: false,
-        home: Splash(),
+        // home: Splash(),
         // home: PaymentInit(
         //   passedVals: {},
         // ),
@@ -52,7 +55,8 @@ class MyApp extends StatelessWidget {
       // home: Categories(),
       // home: Fruits(),
       // home: HomePage(),
-      //     home:CartPage(),
+      // home:CartPage(),
+          home: Vegetables(),
         ),
     );
   }

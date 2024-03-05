@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         title: Text(
-          widget.address ?? 'Unknown Location',
+          widget.address ?? 'Bangalore India',
           style: TextStyle(
             fontSize: 16,
             color: Colors.grey[700],
@@ -55,16 +55,16 @@ class _HomePageState extends State<HomePage> {
           // ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white54,
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => CartPage(),
-          ),
-        ),
-        child: const Icon(Icons.shopping_cart),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.white54,
+      //   onPressed: () => Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (context) => CartPage(),
+      //     ),
+      //   ),
+      //   child: const Icon(Icons.shopping_cart),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,10 +146,10 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.explore),
             label: 'Explore',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.shopping_cart),
-          //   label: 'Cart',
-          // ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Cart',
+          ),
           BottomNavigationBarItem(
             icon: AccountItem.AccountBottomNavigationBarItem(), // Use AccountBottomNavigationBarItem
             label: 'Account',
@@ -169,12 +169,12 @@ class _HomePageState extends State<HomePage> {
                 MaterialPageRoute(builder: (context) => Categories()),
               );
               break;
-            // case 2:
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(builder: (context) => CartPage()),
-            //   );
-            //   break;
+            case 2:
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartPage()),
+              );
+              break;
             case 2:
             // Handle account navigation
               Navigator.push(
